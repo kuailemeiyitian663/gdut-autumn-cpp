@@ -107,3 +107,24 @@ git push -u origin main
 
 这些 Demo 是**起点不是终点**。答应过自己的事：每个文件至少亲手改一行、加一句注释、跑出自己的结果，再 push。
 交上去的代码如果连自己都说不清每一行在干嘛，那它就不是作品，是负债。
+
+
+## VS Code 里怎么用（本机已配好）
+
+编辑器装在 `D://Microsoft VS Code\Code.exe`，C/C++ 扩展（cpptools、cmake-tools、cpp-devtools）已装。
+
+| 想干嘛 | 怎么操作 |
+|--------|----------|
+| 编译当前这个文件 | `Ctrl+Shift+B` → 用 D://TDM-GCC 的 g++ 编译，带 `-Wall -g`，产物同名 `.exe` 落在同目录 |
+| 断点调试 | `F5` → gdb 调试（TDM-GCC 自带 gdb.exe），会自动先编译再启动 |
+| 八个文件全量验收 | 终端里 `python _verify.py` → 全编译 + 全运行，打印每个文件输出行数 |
+
+`.vscode/` 里三个文件是配好别删：
+
+- `tasks.json` —— 两个任务：g++ 编译当前文件、全量验收
+- `c_cpp_properties.json` —— IntelliSense 指向 D://TDM-GCC，代码补全和红色波浪线靠它
+- `launch.json` —— gdb 调试配置，`preLaunchTask` 会先编译再调试
+
+> 不想用 VS Code 也行，双击根目录 `run.bat`，同样全编译全运行。
+
+> 编译器只用 `D://TDM-GCC//bin//g++.exe`。`D://Dev-Cpp//MinGW64` 里那个是 gcc 4.9.2（2014 年），会给你一堆假报错，别用。
