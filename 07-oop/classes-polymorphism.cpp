@@ -43,6 +43,14 @@ public:
     }
 };
 
+// ============ 纯抽象类：只定规矩，当接口用 ============
+class Shape {
+public:
+    virtual double area() const = 0;     // 纯虚：不写实现
+    virtual ~Shape() {}
+};
+// Shape s;   // 报错：抽象类不能实例化，只能拿来当接口
+
 // ============ 多态：同一句调用，跑不同实现 ============
 void makeEveryoneWork(Worker& w) {       // 用基类引用接派生类对象
     w.work();
@@ -66,14 +74,6 @@ int main() {
     makeEveryoneWork(w);
     makeEveryoneWork(e);
     makeEveryoneWork(r);                 // 三个都各自干各自的活
-
-    // ============ 纯抽象类 ============
-    class Shape {
-    public:
-        virtual double area() const = 0; // 纯虚：只定规矩，不写实现
-        virtual ~Shape() {}
-    };
-    // Shape s;   // 报错：抽象类不能实例化，只能拿来当接口
 
     return 0;
 }

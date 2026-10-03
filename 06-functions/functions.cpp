@@ -43,7 +43,7 @@ int main() {
     cout << "sum2(3, 4)  = " << sum2(3, 4) << endl;
 
     cout << "max2(1, 2)    = " << max2(1, 2) << endl;
-    cout << "max2(1.5, 2.0)= " << max2(1.5, 2.0) << "   <- 同一个名字，自动选 float 版" << endl;
+    cout << "max2(1.5, 2.0)= " << max2(1.5, 2.0) << "   <- 同一个名字，自动选 double 版" << endl;
 
     cout << "5! = " << fact(5) << endl;
     cout << "square(7) = " << square(7) << endl;

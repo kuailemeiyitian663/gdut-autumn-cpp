@@ -27,20 +27,51 @@
 
 ## 怎么跑起来
 
-**方式 A（推荐，零安装）**：打开 <https://cpp.sh> 或 <https://www.onlinegdb.com/> ，把 `.cpp` 内容整段粘进左边代码框，点 Run。所有 Demo 都是 C++11 兼容，在线编译器直接能过。
+### ⚠️ 先说清楚状态
 
-**方式 B（本地）**：装一个免费开源的 TDM-GCC（<https://jmeubank.github.io/tdm-gcc/> ，约 100MB，选 64-bit），装完在终端里：
+- 这 8 个文件**已经人工逐行复核过**（创建于 2026-10-03，之后改过一次注释），**但还没经过真实编译器**。
+- 本机编译环境：git 有，`g++` / `clang++` 都没有，`gh` 没装，GitHub 连接器未授权。
+- 所以你第一次跑如果遇到报错，**不是你抄错了，是环境没配好**——先看报错行号，把报错整段贴给我，我改。
+
+**装了编译器之后**：双击根目录的 `run.bat`，8 个文件会全编译一遍并依次运行，输出落在 `build/` 里。`-Wall` 开着，有 warning 我会标出来。
+
+### 三个免费的编译器（任选一个，都是开源免费）
+
+| 方案 | 怎么装 | 适合谁 | 备注 |
+|------|--------|--------|------|
+| **A. TDM-GCC**（推荐） | 官网 <https://jmeubank.github.io/tdm-gcc/> 下安装包，一路 Next，勾 "Add to PATH" | 只想快点跑起来、不想折腾 | 约 100MB，64-bit。装完重启终端，敲 `g++ --version` 出版本号就成了 |
+| **B. MSYS2 + VS Code** | 官网 <https://www.msys2.org/> 下安装包 → 装完打开 MSYS2 UCRT64 → `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-gcc` | 想正经搭 C++ 开发环境（DX 视觉线以后还要用） | 体积大、耗时长，但一步到位，往后 OpenCV 也能用 |
+| **C. 在线编译器** | 用浏览器开 <https://www.onlinegdb.com/> ，粘代码点 Run | 只想临时看一眼结果 | **实测 cpp.sh 在本机网络下连不上**，别把时间花在那儿；onlinegdb 是否通看你自己的网 |
+
+> 别选"Dev-C++"：它虽然一键，但自带的老编译器对 C++11 支持不全，容易给你添假报错。
+
+本地终端跑单条：
 
 ```bash
-# 进入本目录（Windows 上把路径换成你自己的）
 cd gdut-autumn-cpp/01-basics
-g++ variables.cpp -o variables.exe
+g++ -std=c++11 variables.cpp -o variables.exe
 variables.exe
 ```
 
 **Dev-C++ / Code::Blocks / VS 的用户**：直接新建源文件 → 粘贴 → 编译运行，不用管命令行。
 
+
 ---
+
+## 推到 GitHub（远端这一步现在还没做）
+
+本机没法替你做：GitHub 连接器没授权、`gh` 没装。三行手打就行：
+
+```bash
+cd gdut-autumn-cpp
+git remote add origin https://github.com/<你的用户名>/gdut-autumn-cpp.git
+git branch -M main
+git push -u origin main
+```
+
+仓库已经在本地建好了，第一次 commit 是 `2e656f5`。
+**注意推之前先改掉 metadata**：`git config user.name` / `git config user.email` 现在是我代填的占位值，
+推上去会变成你的提交作者，改一下再 push（本机：`git config user.email "你的邮箱"`）。
 
 ## 我的提交记录
 

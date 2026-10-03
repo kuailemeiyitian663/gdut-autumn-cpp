@@ -1,0 +1,6 @@
+# 编译产物，别提交
+*.exe
+*.o
+*.out
+*.obj
+*.exe.stackdump
