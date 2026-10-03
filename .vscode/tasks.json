@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "g++ 编译当前文件",
+      "type": "shell",
+      "command": "D:\\TDM-GCC\\bin\\g++.exe",
+      "args": [
+        "-std=c++11",
+        "-Wall",
+        "-g",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "${file}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "detail": "用 D:\\TDM-GCC 的 g++ 编译当前 cpp，带 -Wall 警告与 -g 调试信息"
+    },
+    {
+      "label": "全部 8 个 Demo 编译运行",
+      "type": "process",
+      "command": "C:\\Users\\zheng\\.workbuddy\\binaries\\python\\envs\\default\\Scripts\\python.exe",
+      "args": [
+        "D:\\workbuddy文件\\2026-10-03-12-26-26\\gdut-autumn-cpp\\_verify.py"
+      ],
+      "group": "test",
+      "problemMatcher": [],
+      "detail": "一键全量编译 + 运行，等价于 python _verify.py"
+    }
+  ]
+}
