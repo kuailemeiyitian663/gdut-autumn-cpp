@@ -13,11 +13,14 @@ using namespace std;
 #pragma GCC diagnostic ignored "-Wsizeof-pointer-memaccess"
 
 // 关键：数组一旦当参数传进函数，类型就退化成指针，sizeof 再也拿不到元素个数
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsizeof-pointer-div"
 void countInFunction(int a[]) {
     cout << "  函数内部 sizeof(a) = " << sizeof(a)
          << "   -> 元素个数 = " << sizeof(a) / sizeof(a[0])
          << "   <- 这是错的！指针只有 8 字节" << endl;
 }
+#pragma GCC diagnostic pop
 
 int main() {
     int arr[5] = {1, 2, 3, 4, 5};
