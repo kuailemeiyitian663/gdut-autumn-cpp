@@ -27,23 +27,45 @@
 
 ## 怎么跑起来
 
-### ⚠️ 先说清楚状态
+### ✅ 状态：已在真机上编译 + 运行验证（2026-10-03）
 
-- 这 8 个文件**已经人工逐行复核过**（创建于 2026-10-03，之后改过一次注释），**但还没经过真实编译器**。
-- 本机编译环境：git 有，`g++` / `clang++` 都没有，`gh` 没装，GitHub 连接器未授权。
-- 所以你第一次跑如果遇到报错，**不是你抄错了，是环境没配好**——先看报错行号，把报错整段贴给我，我改。
+- 装的是 **TDM-GCC 10.3.0（TDM-GCC 官方版），装在 `D:\TDM-GCC`**。
+- 8 个文件**全部编译通过，全部成功运行**，开 `-Wall` 时**零 error、零 warning**。
+- 验证方式：根目录 `_verify.py`（`python _verify.py`），它会重新编译 8 个文件、逐个跑一遍、把运行时输出行数打出来。
+- 顺手修掉两个真会扣分的问题：
+  1. `04-operators/operators.cpp` 原来把 `p++` 和 `p` 塞进同一条 `cout` —— 这是**未定义行为**（`<<` 的求值顺序没规定，有的编译器先算右边）。已拆成两句。
+  2. `04-operators/operators.cpp` 的 `bool r` 声明了没用；补了一行输出。
+- `01-basics/variables.cpp` 里留了一处**故意的** `-Wuninitialized` 演示（就是"不初始化 = 垃圾值"这个考点），用 `#pragma GCC diagnostic ignored` 定向关掉了，其余代码照常吃完整 `-Wall`。
 
-**装了编译器之后**：双击根目录的 `run.bat`，8 个文件会全编译一遍并依次运行，输出落在 `build/` 里。`-Wall` 开着，有 warning 我会标出来。
+**日常怎么跑**：双击根目录的 `run.bat`，8 个文件全编译一遍并依次运行，输出落 `build/`。
+`run.bat` 会自动找 `g++`；如果 PATH 里没有，会回落到 `D:\TDM-GCC\bin\g++.exe`。
+
+> 本机小坑（不是你代码的问题）：Windows 的"应用程序控制策略"会**随机**拦掉某个 exe 的执行，
+> 报 `WinError 4551 应用程序控制策略已阻止此文件`。换个路径/换个名字重跑一般就好，`_verify.py` 里已经带自动重试。
 
 ### 三个免费的编译器（任选一个，都是开源免费）
 
-| 方案 | 怎么装 | 适合谁 | 备注 |
-|------|--------|--------|------|
-| **A. TDM-GCC**（推荐） | 官网 <https://jmeubank.github.io/tdm-gcc/> 下安装包，一路 Next，勾 "Add to PATH" | 只想快点跑起来、不想折腾 | 约 100MB，64-bit。装完重启终端，敲 `g++ --version` 出版本号就成了 |
-| **B. MSYS2 + VS Code** | 官网 <https://www.msys2.org/> 下安装包 → 装完打开 MSYS2 UCRT64 → `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-gcc` | 想正经搭 C++ 开发环境（DX 视觉线以后还要用） | 体积大、耗时长，但一步到位，往后 OpenCV 也能用 |
-| **C. 在线编译器** | 用浏览器开 <https://www.onlinegdb.com/> ，粘代码点 Run | 只想临时看一眼结果 | **实测 cpp.sh 在本机网络下连不上**，别把时间花在那儿；onlinegdb 是否通看你自己的网 |
+**你已经装好的就是方案 A：TDM-GCC 10.3.0，路径 `D:\TDM-GCC\bin\g++.exe`。** 后续不用再装别的。
 
-> 别选"Dev-C++"：它虽然一键，但自带的老编译器对 C++11 支持不全，容易给你添假报错。
+| 方案 | 状态 | 说明 |
+|------|------|------|
+| **A. TDM-GCC 10.3.0** | ✅ **已装，正在用** | 装在 `D:\TDM-GCC`。64-bit，约 100MB。C++11 全支持，机试够用 |
+| **B. MSYS2 + VS Code** | ⏸ 暂不用 | DX 视觉线以后要上 OpenCV 再考虑。体积大、耗时长，现在装是拿时间换负资产 |
+| **C. 在线编译器** | ⛔ 别用 | cpp.sh / coliru / godbolt 实测本机全连不上，白花时间 |
+
+本机终端里跑单条：
+
+```bash
+# 方式 1：用完整路径（不用配 PATH，永远不会找错）
+D:\TDM-GCC\bin\g++.exe -std=c++11 -Wall -o variables.exe variables.cpp
+variables.exe
+
+# 方式 2：把编译器加进 PATH，之后都能直接敲 g++
+set PATH=D:\TDM-GCC\bin;%PATH%
+g++ -std=c++11 -Wall -o variables.exe variables.cpp
+```
+
+> 别用 `D:\Dev-Cpp` 里那个自带编译器：它是 **gcc 4.9.2**（2014 年的），对 C++11 支持不全，会给你添假报错。
 
 本地终端跑单条：
 

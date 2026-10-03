@@ -20,8 +20,14 @@ int main() {
     cout << "passed=" << passed << endl;   // bool 打印出来是 1 / 0，不是 true / false
 
     // 2. 未初始化 = 垃圾值（只演示，实际写代码千万别这样）
+    // -Wuninitialized 是 -Wall 的默认检查，故意留这一处：它就是要你看警告长什么样。
+    // 下面这行 pragma 只在这一句里关掉它，其余代码照样吃 -Wall 的完整检查。
     int uninitialized;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wuninitialized"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
     cout << "未初始化的值: " << uninitialized << "  —— 每次跑可能不一样" << endl;
+#pragma GCC diagnostic pop
 
     // 3. const 常量：声明之后不能再赋值
     const int MAX_STU = 50;
