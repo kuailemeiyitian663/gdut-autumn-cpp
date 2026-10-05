@@ -128,3 +128,16 @@ git push -u origin main
 > 不想用 VS Code 也行，双击根目录 `run.bat`，同样全编译全运行。
 
 > 编译器只用 `D://TDM-GCC//bin//g++.exe`。`D://Dev-Cpp//MinGW64` 里那个是 gcc 4.9.2（2014 年），会给你一堆假报错，别用。
+
+
+## ⚠️ 本机网络：GitHub 网页打不开，但能推代码
+
+实测（2026-10-05）：本机网络 **阻断 `github.com:443`**（网页和 HTTPS 推送都走这里），但 **SSH 通道是通的**（`github.com:22` 和 `ssh.github.com:443` 均可连）。
+
+**所以推送必须走 SSH，不能用 HTTPS。** 本机 SSH 已配好（`~/.ssh/config` 把 github.com 指向 `ssh.github.com:443`），推送地址格式是：
+
+```
+git@github.com:<你的用户名>/gdut-autumn-cpp.git
+```
+
+完整的排查数据、加公钥步骤、Gitee 备选方案见工作区里的 **`怎么把代码推上GitHub.md`**。
